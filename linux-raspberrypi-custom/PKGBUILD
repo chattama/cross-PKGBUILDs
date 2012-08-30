@@ -1,0 +1,23 @@
+pkgname=linux-raspberrypi-custom
+pkgver=3.2.27
+pkgrel=2
+pkgdesc="The Linux Kernel and modules for Raspberry Pi (customized)"
+arch=(arm)
+depends=('linux-firmware')
+url="http://www.kernel.org/"
+license=('GPL2')
+
+kernel_build_dir=$startdir/../linux
+xtool=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-
+
+build() {
+  cd ${kernel_build_dir}
+  make ARCH=arm CROSS_COMPILE=${xtool}
+}
+
+package() {
+  cd ${kernel_build_dir}
+  make ARCH=arm CROSS_COMPILE=${xtool} INSTALL_MOD_PATH=${pkgdir} modules_install firmware_install
+  mkdir -p ${pkgdir}/boot
+  cp $startdir/../linux/arch/arm/boot/zImage ${pkgdir}/boot/kernel.img.${pkgver}-${pkgrel}
+}
