@@ -7,7 +7,7 @@ depends=('linux-firmware')
 url="http://www.kernel.org/"
 license=('GPL2')
 
-kernel_build_dir=$startdir/../linux
+kernel_build_dir=$startdir/../../kernel/linux
 xtool=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-
 
 build() {
@@ -19,5 +19,5 @@ package() {
   cd ${kernel_build_dir}
   make ARCH=arm CROSS_COMPILE=${xtool} INSTALL_MOD_PATH=${pkgdir} modules_install firmware_install
   mkdir -p ${pkgdir}/boot
-  cp $startdir/../linux/arch/arm/boot/zImage ${pkgdir}/boot/kernel.img.${pkgver}-${pkgrel}
+  cp ${kernel_build_dir}/arch/arm/boot/zImage ${pkgdir}/boot/kernel.img.${pkgver}-${pkgrel}
 }
