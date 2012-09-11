@@ -1,16 +1,16 @@
-pkgname=v4l2loopback
-pkgver=20120911
+. ${startdir}/../config
+
+pkgname=v4l2loopback-custom
+pkgver=0.6.1
 pkgrel=1
 pkgdesc="A kernel module to create V4L2 loopback devices"
 url="https://github.com/umlaeute/v4l2loopback"
 license=("GPL")
-arch=('arm')
+arch=(arm)
 makedepends=('git')
 
 _gitroot="git://github.com/umlaeute/v4l2loopback.git"
 _gitname="v4l2loopback"
-_kernel_dir=$startdir/../../kernel/linux
-_kernel_ver="3.2.27+"
 
 build() {
   cd "$srcdir"

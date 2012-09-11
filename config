@@ -1,0 +1,3 @@
+_kernel_dir="/home/chattama/raspi/kernel/linux"
+_kernel_ver="3.2.27+"
+_x_tools_prefix="/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-"

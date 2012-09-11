@@ -1,3 +1,5 @@
+. ${startdir}/../config
+
 pkgname=linux-raspberrypi-custom
 pkgver=3.2.27
 pkgrel=5
@@ -7,16 +9,12 @@ depends=('linux-firmware')
 url="http://www.kernel.org/"
 license=('GPL2')
 
-_kernel_dir=$startdir/../../kernel/linux
-
 build() {
-  cd ${_kernel_dir}
-  make ARCH=arm
+  make -C ${_kernel_dir} ARCH=arm
 }
 
 package() {
-  cd ${_kernel_dir}
-  make ARCH=arm INSTALL_MOD_PATH=${pkgdir} modules_install firmware_install
+  make -C ${_kernel_dir} ARCH=arm INSTALL_MOD_PATH=${pkgdir} modules_install firmware_install
   mkdir -p ${pkgdir}/boot
   cp ${_kernel_dir}/arch/arm/boot/zImage ${pkgdir}/boot/kernel.img.${pkgver}-${pkgrel}
 }
