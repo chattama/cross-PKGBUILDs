@@ -1,6 +1,6 @@
 pkgname=linux-raspberrypi-custom
 pkgver=3.2.27
-pkgrel=2
+pkgrel=5
 pkgdesc="The Linux Kernel and modules for Raspberry Pi (customized)"
 arch=(arm)
 depends=('linux-firmware')
@@ -10,7 +10,7 @@ license=('GPL2')
 _kernel_dir=$startdir/../../kernel/linux
 
 build() {
-  cd ${kernel_build_dir}
+  cd ${_kernel_dir}
   make ARCH=arm
 }
 
