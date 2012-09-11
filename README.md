@@ -14,5 +14,5 @@
 ### build package
 
     cd packagedir
-    makepkg --config ../makepkg-arm.conf -d
+    makepkg --config ../makepkg-arm.conf -d --holdver
 
