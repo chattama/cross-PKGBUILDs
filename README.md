@@ -14,5 +14,5 @@
 ### build package
 
     cd packagedir
-    makepkg --config ../makepkg-arm.conf
+    makepkg --config ../makepkg-arm.conf -d
 
