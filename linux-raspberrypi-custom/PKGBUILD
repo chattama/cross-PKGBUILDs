@@ -1,4 +1,3 @@
-. ${startdir}/../config
 
 pkgname=linux-raspberrypi-custom
 pkgver=3.2.27

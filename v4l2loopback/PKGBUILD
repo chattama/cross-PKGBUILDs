@@ -1,4 +1,3 @@
-. ${startdir}/../config
 
 pkgname=v4l2loopback-custom
 pkgver=0.6.1
