@@ -1,0 +1,41 @@
+pkgname=v4l2loopback
+pkgver=20120911
+pkgrel=1
+pkgdesc="A kernel module to create V4L2 loopback devices"
+url="https://github.com/umlaeute/v4l2loopback"
+license=("GPL")
+arch=('arm')
+makedepends=('git')
+
+_gitroot="git://github.com/umlaeute/v4l2loopback.git"
+_gitname="v4l2loopback"
+_kernel_dir=$startdir/../../kernel/linux
+_kernel_ver="3.2.27+"
+
+build() {
+  cd "$srcdir"
+  msg "Connecting to GIT server...."
+
+  if [[ -d "$_gitname" ]]; then
+    cd "$_gitname" && git pull origin
+    msg "The local files are updated."
+  else
+    git clone "$_gitroot" "$_gitname"
+  fi
+
+  msg "GIT checkout done or server timeout"
+  msg "Starting build..."
+
+  rm -rf "$srcdir/$_gitname-build"
+  git clone "$srcdir/$_gitname" "$srcdir/$_gitname-build"
+  cd "$srcdir/$_gitname-build"
+
+  make ARCH=arm KERNEL_DIR=${_kernel_dir}
+}
+
+package() {
+  cd "$srcdir/$_gitname-build"
+  install -Dm 644 "${srcdir}/${_gitname}-build/v4l2loopback.ko" \
+    "$pkgdir/lib/modules/${_kernel_ver}/kernel/drivers/misc/v4l2loopback.ko"
+}
+
