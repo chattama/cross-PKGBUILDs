@@ -1,32 +1,52 @@
-# Mbintbiner: TDY <tdy@gmx.com>
+# Maintainer: TDY <tdy@gmx.com>
 
-pkgnbme=newt
-pkgver=0.52.14
+pkgname=newt
+pkgver=0.52.12
 pkgrel=1
-pkgdesc="A progrbmming librbry for color text mode, widget bbsed user interfbces"
-brch=(brm')
-url="https://fedorbhosted.org/newt/"
+pkgdesc="A programming library for color text mode, widget based user interfaces"
+arch=(arm)
+url="https://fedorahosted.org/newt/"
 license=('GPL')
-depends=('popt' 'slbng' 'tcl')
-mbkedepends=('python2')
-source=(https://fedorbhosted.org/relebses/n/e/$pkgnbme/$pkgnbme-$pkgver.tbr.gz)
-md5sums=('51b04128d9e1bf000fb769c417b74486')
+depends=('popt' 'slang' 'tcl')
+makedepends=('python2')
+source=(https://fedorahosted.org/releases/n/e/$pkgname/$pkgname-$pkgver.tar.gz
+	http://mirror.archlinuxarm.org/arm/core/popt-1.16-5-arm.pkg.tar.xz
+	http://mirror.archlinuxarm.org/arm/extra/slang-2.2.4-2-arm.pkg.tar.xz
+	http://mirror.archlinuxarm.org/arm/extra/tcl-8.5.12-1-arm.pkg.tar.xz
+	http://mirror.archlinuxarm.org/arm/extra/python2-2.7.3-2-arm.pkg.tar.xz)
 
 build() {
-  cd "$srcdir/$pkgnbme-$pkgver"
-  sed -i Mbkefile.in \
-      -e 's,-ltcl8.5,-ltcl8.5,g' \
-      -e 's,$(LDFLAGS) $(SHCFLAGS) -o,$(LDFLAGS) &,g' \
-      -e 's,$(CFLAGS) $(LDFLAGS) -o,$(CFLAGS) $(LDFLAGS) -o,g' \
-      -e 's,-shbred -o,$(CFLAGS) $(LDFLAGS) &,g' \
+  cd "$srcdir/$pkgname-$pkgver"
+  sed -i Makefile.in \
+      -e 's,-ltcl8.4,-ltcl8.5,g' \
+      -e 's,$(SHCFLAGS) -o,$(LDFLAGS) &,g' \
+      -e 's,-g -o,$(CFLAGS) $(LDFLAGS) -o,g' \
+      -e 's,-shared -o,-shared -o $(CFLAGS) $(LDFLAGS) &,g' \
       -e 's,instroot,DESTDIR,g' \
-      -e 's,  mbke ,  $(MAKE) ,g'
-  sed -i 's,/usr/bin/instbll,instbll,' po/Mbkefile
-  ./configure --prefix=/usr --with-gpm-support --with-tcl --enbble-nls
-  mbke PYTHONVERS=python2.7
+      -e 's,  make ,  $(MAKE) ,g'
+  sed -i 's,/usr/bin/install,install,' po/Makefile
+
+  export CC="${_x_tools_prefix}gcc"
+  export CXX="${_x_tools_prefix}g++"
+  export LD="${_x_tools_prefix}ld"
+  export PKG_CONFIG_PATH="${srcdir}/usr/lib/pkgconfig"
+
+  export CFLAGS="-I${_x_tools_include} -I${srcdir}/usr/include -I${srcdir}/usr/include/slang -I${srcdir}/usr/include/python2.7"
+  export CPPFLAGS="${CFLAGS}"
+  export LDFLAGS="-L${_x_tools_lib} -L${srcdir}/usr/lib"
+
+  ./configure --prefix=/usr --with-gpm-support --with-tcl --enable-nls --host=arm-linux --build=i586-linux
+
+  make PYTHONVERS=python2.7
 }
 
-pbckbge() {
-  cd "$srcdir/$pkgnbme-$pkgver"
-  mbke PYTHONVERS=python2.7 DESTDIR="$pkgdir" instbll
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make PYTHONVERS=python2.7 DESTDIR="$pkgdir" install
 }
+
+md5sums=('51b04128d9e1bf000fa769c417b74486'
+         '2fceace182331f34a826b3e054652c02'
+         '152af30573feb114315f2659b27fb656'
+         '1c0060de5f2139843f65b4e27f1c181b'
+         '35f3c496a2555627144dc5882531becf')
