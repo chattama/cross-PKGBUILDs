@@ -29,11 +29,10 @@ build() {
   export CC="${_x_tools_prefix}gcc"
   export CXX="${_x_tools_prefix}g++"
   export LD="${_x_tools_prefix}ld"
-  export PKG_CONFIG_PATH="${srcdir}/usr/lib/pkgconfig"
 
-  export CFLAGS="-I${_x_tools_include} -I${srcdir}/usr/include -I${srcdir}/usr/include/slang -I${srcdir}/usr/include/python2.7"
+  export CFLAGS="-I${srcdir}/usr/include -I${srcdir}/usr/include/slang -I${srcdir}/usr/include/python2.7"
   export CPPFLAGS="${CFLAGS}"
-  export LDFLAGS="-L${_x_tools_lib} -L${srcdir}/usr/lib"
+  export LDFLAGS="-L${srcdir}/usr/lib"
 
   ./configure --prefix=/usr --with-gpm-support --with-tcl --enable-nls --host=arm-linux --build=i586-linux
 
